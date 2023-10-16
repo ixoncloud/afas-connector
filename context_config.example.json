@@ -1,0 +1,10 @@
+{
+  "values": {
+    "token": "<token><version>1</version><data>token123</data></token>",
+    "environment_id": "123456",
+    "dossier_per_project_connector": "conn_1",
+    "files_per_dossier_connector": "conn_2",
+    "project_id_custom_field_id": "comSerialNo",
+    "zapier_webhook_url": "https://hooks.zapier.com/hooks/catch/x/y/"
+  }
+}

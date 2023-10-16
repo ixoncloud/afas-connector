@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/@ixon-cdk/core/config/schema.json",
+  "prefix": "pct",
+  "apiApplication": "KIPhb1ti0JL1",
+  "components": {
+    "afas-document-connector": {
+      "runner": {
+        "build": {
+          "builder": "@ixon-cdk/svelte-builder:browser",
+          "input": "afas-document-connector.svelte"
+        },
+        "deploy": {
+          "company": "7966-5700-7008-0957-0300",
+          "template": "4oDOzWIhDxxR"
+        }
+      }
+    }
+  }
+}

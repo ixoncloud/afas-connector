@@ -1,92 +1,104 @@
-# AFAS Document Connector
+# AFAS Document Connector App
 
+This workspace contains the AFAS Document Connector App for IXON Cloud. It can be used to present machine specific documentation per machine in the IXON Cloud. It is based on the [IXON Cloud Custom Component Development Kit](https://developer.ixon.cloud/docs/custom-components) and [IXON Cloud Backend Component Workspace](https://github.com/ixoncloud/backend-component-workspace). Note that this app is built with [Svelte](https://svelte.dev/), [Typescript](https://www.typescriptlang.org/), [SCSS](https://sass-lang.com/) and [Python](https://www.python.org/). It requires you to be familiar with the [Node.js](https://nodejs.org/) ecosystem.
 
+## Testing locally
 
-## Getting started
+Install the dependencies...
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.ixon.net/solution-engineering/afas-document-connector.git
-git branch -M main
-git push -uf origin main
+```sh
+npm install
 ```
 
-## Integrate with your tools
+...login to your IXON Cloud account...
 
-- [ ] [Set up project integrations](https://gitlab.ixon.net/solution-engineering/afas-document-connector/-/settings/integrations)
+```sh
+npx cdk login
+```
 
-## Collaborate with your team
+...and run the simulator:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```sh
+npx cdk simulate calculate-single-value
+```
 
-## Test and Deploy
+...this opens the simulator app in a browser and builds the component in watch-mode, which means that any changes to the component source files will trigger a rebuild and will auto-reload the simulator.
 
-Use the built-in continuous integration in GitLab.
+To run the Cloud Functions call:
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```sh
+make run
+```
 
-***
+...no additional commands are required, as this is automatically sets up your virtual environment and installs dependencies.
 
-# Editing this README
+## Documentation
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+To check out docs and examples on how to develop an App, visit [Custom Component Development Docs](https://developer.ixon.cloud/docs/custom-components) and [Cloud Functions Development Docs](https://developer.ixon.cloud/docs/cloud-functions-introduction).
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+The [@ixon-cdk/runner](https://www.npmjs.com/package/@ixon-cdk/runner) page has a complete overview of all commands that can be run in a component workspace project.
 
-## Name
-Choose a self-explaining name for your project.
+## Context config
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```json
+{
+  "token": "<token><version>1</version><data>token123</data></token>",
+  "environment_id": "123456",
+  "dossier_per_project_connector": "conn_1",
+  "files_per_dossier_connector": "conn_2",
+  "project_id_custom_field_id": "comSerialNo",
+  "zapier_webhook_url": "https://hooks.zapier.com/hooks/catch/x/y/"
+}
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+token is used to authenticate to afas: https://help.afas.nl/help/EN/SE/App_Cnr_Rest_Token.htm
+environment_id is used to select the correct environment in afas
+dossier_per_project_connector is used to get the dossier id for the project in afas
+files_per_dossier_connector is used to get the files for the dossier in afas
+project_id_custom_field_id is used to map the project in afas to the agent or asset in IXON Cloud
+zapier_webhook_url is optional used for logging when the download button is clicked
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+example for dossier_per_project_connector response from afas:
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+```json
+{
+  'skip': -1,
+  'take': -1,
+  'rows': [
+    {
+      Project': '1-XXXX',
+      'Type_dossieritem': 77,
+      'Omschrijving':
+      'Ixon dossieritem',
+      'Instuurdatum': '2023-04-20T13:48:50Z',
+      'Onderwerp': '1-XXXX Installation manual',
+      'Dossieritem_bijlage': True,
+      'Dossieritem': 80967
+    }
+  ]
+}
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+the rows array is filtered on Project and Dossieritem afterwards
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+example for files_per_dossier_connector response from afas:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```json
+{
+  "skip": -1,
+  "take": -1,
+  "rows": [
+    {
+      "Bijlage-Id": 85458,
+      "Dossieritem": 80967,
+      "Bijlage": "B8C08F324E40328F9C8EC483AEAB44DE",
+      "Naam": "1-XXXX Installation manual.pdf",
+      "Bestandsgrootte": 3866,
+      "Type_dossieritem": 64,
+      "Nummer": 2
+    }
+  ]
+}
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+the rows array will be filtered on Dossieritem afterwards

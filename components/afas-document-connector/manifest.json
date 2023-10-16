@@ -1,0 +1,31 @@
+{
+  "main": "pct-afas-document-connector.min.js",
+  "version": "3",
+  "sheetSettings": {
+    "defaultCols": 6,
+    "defaultRows": 6,
+    "minCols": 3,
+    "minRows": 3
+  },
+  "inputs": [
+    {
+      "key": "header",
+      "type": "Group",
+      "label": "Info",
+      "children": [
+        {
+          "key": "title",
+          "type": "String",
+          "label": "Title",
+          "placeholder": "Leave empty for no title"
+        },
+        {
+          "key": "subtitle",
+          "type": "String",
+          "label": "Subtitle",
+          "placeholder": "Leave empty for no subtitle"
+        }
+      ]
+    }
+  ]
+}
