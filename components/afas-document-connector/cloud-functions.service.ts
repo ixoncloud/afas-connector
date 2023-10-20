@@ -27,6 +27,13 @@ export class CloudFunctionsService {
   async getFiles() {
     loadingStore.set(true);
     const response = await this.cloudFunctionsClient.call("get_files");
+
+    if (response.data.error) {
+      filesStore.set([]);
+      loadingStore.set(false);
+      return;
+    }
+
     const files = response.data as any as { name: string; id: string }[];
     const processedFiles = files.map((file: { name: any; id: any }) => ({
       name: file.name,
@@ -49,13 +56,9 @@ export class CloudFunctionsService {
     ).data as any as { file_name: string; pdf_file: string };
 
     if (pdfFile.pdf_file && pdfFile.file_name) {
-      const binary = atob(pdfFile.pdf_file.split(",")[1]);
-      const array = new Uint8Array(binary.length);
-      for (let i = 0; i < binary.length; i++) {
-        array[i] = binary.charCodeAt(i);
-      }
-
-      const blob = new Blob([array], { type: "application/pdf" });
+      // Assume pdfFile.pdf_file is a base64 data URI
+      const response = await fetch(pdfFile.pdf_file);
+      const blob = await response.blob();
 
       this.context.saveAsFile(blob, pdfFile.file_name);
     } else {

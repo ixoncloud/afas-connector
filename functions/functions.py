@@ -82,7 +82,7 @@ def _get_files_from_afas(context: CbcContext) -> List[Dict[str, str]]:
             files_list = _get_files_list(filtered_rows)
             return files_list
 
-    return [{'error': 'Something went wrong'}]
+    return {'error': 'Something went wrong'}
 
 
 def _download_file_from_afas(context: CbcContext, file_id: str, file_name: str) -> Dict[str, str]:
@@ -118,28 +118,28 @@ def _check_error_conditions(context: CbcContext) -> Union[List
                                                           None]:
     token = context.config.get('token')
     if not token:
-        return [{'error': 'No token found'}]
+        return {'error': 'No token found'}
 
     environment_id = context.config.get('environment_id')
     if not environment_id:
-        return [{'error': 'No environment id found'}]
+        return {'error': 'No environment id found'}
 
     dossier_per_project_connector = context.config.get(
         'dossier_per_project_connector')
     if not dossier_per_project_connector:
-        return [{'error': 'No dossier_per_project_connector found'}]
+        return {'error': 'No dossier_per_project_connector found'}
 
     files_per_dossier_connector = context.config.get(
         'files_per_dossier_connector')
     if not files_per_dossier_connector:
-        return [{'error': 'No files_per_dossier_connector found'}]
+        return {'error': 'No files_per_dossier_connector found'}
 
     project_id = context.config.get(
         'project_id_custom_field_id')
     project_id = context.agent_or_asset.custom_properties.get(
         project_id)
     if not project_id:
-        return [{'error': 'No serial number found'}]
+        return {'error': 'No serial number found'}
 
     return None
 
