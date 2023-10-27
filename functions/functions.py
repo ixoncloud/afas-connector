@@ -18,12 +18,12 @@ def get_files(context: CbcContext) -> List[Dict[str, str]]:
 
 @CbcContext.expose
 def download_file(context: CbcContext, file_id: str, file_name: str):
-    zapier_webhook_url = context.config.get('zapier_webhook_url')
+    webhook_url = context.config.get('webhook_url')
 
-    if (zapier_webhook_url):
+    if (webhook_url):
         now = datetime.now()
         iso_format = now.strftime("%Y-%m-%dT%H:%M:%S")
-        requests.post(zapier_webhook_url,
+        requests.post(webhook_url,
                       data={'agent_or_asset': context.agent_or_asset.name,
                             'file_id': file_id, 'file_name': file_name,
                             'utc_time': iso_format})
