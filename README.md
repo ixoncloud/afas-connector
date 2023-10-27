@@ -47,7 +47,7 @@ The [@ixon-cdk/runner](https://www.npmjs.com/package/@ixon-cdk/runner) page has 
   "dossier_per_project_connector": "conn_1",
   "files_per_dossier_connector": "conn_2",
   "project_id_custom_field_id": "comSerialNo",
-  "zapier_webhook_url": "https://hooks.zapier.com/hooks/catch/x/y/"
+  "webhook_url": "https://hooks.zapier.com/hooks/catch/x/y/"
 }
 ```
 
@@ -56,7 +56,7 @@ environment_id is used to select the correct environment in afas
 dossier_per_project_connector is used to get the dossier id for the project in afas
 files_per_dossier_connector is used to get the files for the dossier in afas
 project_id_custom_field_id is used to map the project in afas to the agent or asset in IXON Cloud
-zapier_webhook_url is optional used for logging when the download button is clicked
+webhook_url is optional used for logging when the download button is clicked
 
 example for dossier_per_project_connector response from afas:
 
