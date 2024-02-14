@@ -74,32 +74,17 @@ export class CloudFunctionsService {
     selector: string
   ): Promise<string | null> {
     const client = context.createResourceDataClient();
-
-    // Create a promise that resolves after a timeout (e.g., 5000 milliseconds)
-    const timeout = new Promise<string | null>((resolve) => {
-      const ms = 2000; // Set timeout duration here
-      setTimeout(() => resolve(null), ms);
-    });
-
-    // Original promise to fetch data
     const response = new Promise<string | null>((resolve) => {
       client.query(
         // @ts-ignore
         [{ selector, fields: ["name"] }],
         (result: { data: { name: any } }[]) => {
-          console.log(result[0]?.data?.name || null);
           resolve(result[0]?.data?.name || null);
+          client.destroy();
         }
       );
     });
 
-    // Race the timeout against the original data fetch
-    const result = await Promise.race([response, timeout]);
-
-    // It's important to destroy the client only after the promise has resolved,
-    // so move client.destroy() here, to ensure it's not called too early.
-    client.destroy();
-
-    return result;
+    return response;
   }
 }
